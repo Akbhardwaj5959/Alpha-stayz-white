@@ -26,8 +26,8 @@ export default function Navbar() {
         </Link>
 
         {/* --- CENTER: Desktop Menu (Hidden on Mobile) --- */}
-        <div className="hidden lg:flex bg-white rounded-full px-8 py-2 shadow-xl">
-          <ul className="flex space-x-8 text-black text-sm font-semibold tracking-wide">
+        <div className="hidden lg:flex bg-white rounded-full px-12 py-4 shadow-xl">
+          <ul className="flex space-x-10 text-black text-base font-semibold tracking-wide">
             <li><Link href="/" className="hover:text-gold-dark transition-colors">Home</Link></li>
             <li><Link href="/about" className="hover:text-gold-dark transition-colors">About</Link></li>
             <li><Link href="/services" className="hover:text-gold-dark transition-colors">Services</Link></li>

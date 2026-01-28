@@ -16,6 +16,13 @@ export default function HeroSection() {
   const locations = ['Sector 57 (Main)', 'Golf Course Ext. (New)'];
   const guestOptions = ['1 Guest', '2 Guests', '3+ Guests'];
 
+  // 1. STATE BANAYEIN (Dates store karne ke liye)
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
+
+  // 2. AAJ KI DATE NIKALEIN (YYYY-MM-DD format mein)
+  const today = new Date().toISOString().split('T')[0];
+
   return (
     <>
       {/* --- HERO SECTION (Background Image & Text) --- */}
@@ -40,9 +47,11 @@ export default function HeroSection() {
           <p className="text-gray-200 text-sm md:text-xl mb-8 tracking-[0.2em] uppercase font-light max-w-2xl mx-auto drop-shadow-md">
             Your Perfect Getaway Awaits in Gurgaon
           </p>
+          <Link href="/services">
           <button className="bg-gold hover:bg-gold-light text-black px-8 md:px-10 py-3 rounded-full font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 text-sm md:text-base shadow-lg">
             Discover Our Suites
           </button>
+          </Link>
         </div>
       </section>
 
@@ -84,21 +93,31 @@ export default function HeroSection() {
 
           {/* 2. Check-in */}
           <div className="flex flex-col space-y-2">
-            <label className="text-gold text-[10px] uppercase tracking-widest font-bold ml-2">Check-in</label>
-            <input
-              type="date"
-              className="bg-black/60 border border-white/20 rounded-xl p-3 outline-none focus:border-gold text-white w-full uppercase [color-scheme:dark] cursor-pointer"
-            />
-          </div>
+        <label className="text-gold text-[10px] uppercase tracking-widest font-bold ml-2">Check-in</label>
+        <input
+          type="date"
+          value={checkInDate}
+          // Change 1: State update karein
+          onChange={(e) => setCheckInDate(e.target.value)}
+          // Change 2: Aaj se pehle ki date select nahi hogi
+          min={today}
+          className="bg-black/60 border border-white/20 rounded-xl p-3 outline-none focus:border-gold text-white w-full uppercase [color-scheme:dark] cursor-pointer"
+        />
+      </div>
 
-          {/* 3. Check-out */}
-          <div className="flex flex-col space-y-2">
-            <label className="text-gold text-[10px] uppercase tracking-widest font-bold ml-2">Check-out</label>
-            <input
-              type="date"
-              className="bg-black/60 border border-white/20 rounded-xl p-3 outline-none focus:border-gold text-white w-full uppercase [color-scheme:dark] cursor-pointer"
-            />
-          </div>
+      {/* 3. Check-out */}
+      <div className="flex flex-col space-y-2">
+        <label className="text-gold text-[10px] uppercase tracking-widest font-bold ml-2">Check-out</label>
+        <input
+          type="date"
+          value={checkOutDate}
+          onChange={(e) => setCheckOutDate(e.target.value)}
+          // Change 3: Check-in date ke baad ki hi date select hogi. 
+          // Agar check-in khali hai, to aaj ke baad ki date.
+          min={checkInDate || today}
+          className="bg-black/60 border border-white/20 rounded-xl p-3 outline-none focus:border-gold text-white w-full uppercase [color-scheme:dark] cursor-pointer"
+        />
+      </div>
 
           {/* 4. CUSTOM GUESTS DROPDOWN */}
           <div className="flex flex-col space-y-2 relative">
