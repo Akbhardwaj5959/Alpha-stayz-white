@@ -1,10 +1,32 @@
 'use client'; // State use karne ke liye zaroori hai
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 
+const heroImages = [
+  "/rooms-images/first.jpg",
+  "/rooms-images/second.jpg", // Apni dusri image ka path dalein
+  "/rooms-images/third.jpg",  // Apni teesri image ka path dalein
+  "/views/hall.jpg"           // Aur bhi add kar sakte hain
+];
+
 export default function HeroSection() {
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // --- STEP 2: AUTO SLIDE LOGIC (Every 3 Seconds) ---
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        (prevIndex + 1) % heroImages.length
+      );
+    }, 3000); // 3000ms = 3 Seconds
+
+    return () => clearInterval(interval); // Cleanup (Zaroori hai)
+  }, []);
+
+
   // --- STATES FOR CUSTOM DROPDOWNS ---
   const [locationOpen, setLocationOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('Sector 57 (Main)');
@@ -23,20 +45,30 @@ export default function HeroSection() {
   // 2. AAJ KI DATE NIKALEIN (YYYY-MM-DD format mein)
   const today = new Date().toISOString().split('T')[0];
 
+  
+
+
   return (
     <>
       {/* --- HERO SECTION (Background Image & Text) --- */}
       <section className="relative mt-20 md:mt-24 h-[80vh] md:h-[70vh] flex items-center justify-center pt-10">
         <div className="absolute inset-0 z-0">
+          {/* Black Overlay (Text readable rakhne ke liye) */}
           <div className="absolute inset-0 bg-black/50 z-10"></div>
-          <Image
-            src="/rooms-images/first.jpg"
-            alt="Luxury Room"
-            width={1920}
-            height={1080}
-            priority
-            className="w-full h-full object-cover"
-          />
+
+          {/* Images Mapping */}
+          {heroImages.map((src, index) => (
+            <Image
+              key={index}
+              src={src}
+              alt={`Slide ${index + 1}`}
+              fill // Ye automatically width/height handle karega
+              priority={index === 0} // Pehli image fast load hogi
+              className={`object-cover w-full h-full transition-opacity duration-1000 ease-in-out absolute inset-0 ${
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          ))}
         </div>
 
         <div className="relative z-20 text-center px-4">
