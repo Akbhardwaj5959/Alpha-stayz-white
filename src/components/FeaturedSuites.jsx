@@ -8,7 +8,7 @@ const suites = [
     period: "/ night",
     image: "/rooms-images/fourth.jpg", 
     description: "Spacious living area with sofa, fully equipped kitchen, and balcony.",
-    amenities: ["Free Wi-Fi", "AC", "Kitchen", "Smart TV"]
+    amenities: ["Free Wi-Fi", "AC", "Kitchen", "Smart TV","High-Speed Net"]
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ const suites = [
     period: "/ night",
     image: "/rooms-images/fifth.jpg", 
     description: "Ideal for families. Two bedrooms, large hall, and premium bath.",
-    amenities: ["2 Bedrooms", "Bathtub", "Parking", "City View"]
+    amenities: ["2 Bedrooms", "Bathtub", "Parking", "City View","High-Speed Net"]
   }
 ];
 
