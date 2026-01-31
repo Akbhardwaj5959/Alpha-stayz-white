@@ -15,25 +15,21 @@ export default function HeroSection() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // --- STATES FOR CUSTOM DROPDOWNS ---
+  // Custom Dropdowns
   const [locationOpen, setLocationOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('Sector 57 (Main)');
-  
   const [guestsOpen, setGuestsOpen] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState('1 Guest');
 
-  // Options Lists
   const locations = ['Sector 57 (Main)', 'Golf Course Ext. (New)'];
   const guestOptions = ['1 Guest', '2 Guests', '3+ Guests'];
 
-  // --- DATE STATES ---
+  // --- DATE STATES & MOBILE FIX ---
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
-  
-  // 🔥 FIX START: Aaj ki date store karne ke liye state banayi
-  const [minDate, setMinDate] = useState('');
+  const [minDate, setMinDate] = useState(''); // 🔥 Mobile fix store karne ke liye
 
-  // Auto Slide Logic
+  // Auto Slide
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => 
@@ -43,27 +39,18 @@ export default function HeroSection() {
     return () => clearInterval(interval); 
   }, []);
 
-  // 🔥 FIX MAIN LOGIC: Date calculation sirf Client side par hogi
+  // 🔥 MOBILE & DATE FIX LOGIC
   useEffect(() => {
-    // 1. Abhi ka time lo
     const dt = new Date();
-    
-    // 2. Timezone offset adjust karo taaki local date hi mile (UTC nahi)
-    // Ye logic India (ya user ki location) ke hisab se sahi 'Aaj' ki date nikalega
+    // Mobile browsers ke liye exact local date calculation
     const localDate = new Date(dt.getTime() - (dt.getTimezoneOffset() * 60000));
-    
-    // 3. YYYY-MM-DD format mein convert karo
     const formattedDate = localDate.toISOString().split('T')[0];
-    
     setMinDate(formattedDate);
   }, []);
-  // 🔥 FIX END
-
 
   return (
     <>
-      {/* ... (Hero Section Images code same rahega) ... */}
-      
+      {/* --- HERO SECTION --- */}
       <section className="relative mt-20 md:mt-24 h-[80vh] md:h-[70vh] flex items-center justify-center pt-10">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/50 z-10"></div>
@@ -97,11 +84,11 @@ export default function HeroSection() {
         </div>
       </section>
 
-      {/* --- RESPONSIVE BOOKING BAR --- */}
+      {/* --- BOOKING BAR --- */}
       <div className="max-w-7xl mx-auto -mt-10 md:-mt-8 relative z-30 px-4 pt-0 mb-10">
         <div className="glass bg-black/90 backdrop-blur-xl mt-4 p-6 md:p-8 rounded-3xl grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 items-end shadow-2xl border border-white/10">
 
-          {/* 1. CUSTOM LOCATION DROPDOWN (Same as before) */}
+          {/* Location Dropdown */}
           <div className="flex flex-col space-y-2 relative">
             <label className="text-gold text-[10px] uppercase tracking-widest font-bold ml-2">Location</label>
             <div 
@@ -129,33 +116,33 @@ export default function HeroSection() {
             )}
           </div>
 
-          {/* 2. Check-in (UPDATED logic) */}
+          {/* Check-in */}
           <div className="flex flex-col space-y-2">
             <label className="text-gold text-[10px] uppercase tracking-widest font-bold ml-2">Check-in</label>
             <input
               type="date"
               value={checkInDate}
               onChange={(e) => setCheckInDate(e.target.value)}
-              // 🔥 Yahan 'today' ki jagah state wala 'minDate' use karein
+              // 🔥 Min Date Updated
               min={minDate} 
               className="bg-black/60 border border-white/20 rounded-xl p-3 outline-none focus:border-gold text-white w-full uppercase [color-scheme:dark] cursor-pointer"
             />
           </div>
 
-          {/* 3. Check-out (UPDATED logic) */}
+          {/* Check-out */}
           <div className="flex flex-col space-y-2">
             <label className="text-gold text-[10px] uppercase tracking-widest font-bold ml-2">Check-out</label>
             <input
               type="date"
               value={checkOutDate}
               onChange={(e) => setCheckOutDate(e.target.value)}
-              // 🔥 Check-in ke baad ki date, ya fir aaj ki date
+              // 🔥 Min Date logic Updated
               min={checkInDate || minDate}
               className="bg-black/60 border border-white/20 rounded-xl p-3 outline-none focus:border-gold text-white w-full uppercase [color-scheme:dark] cursor-pointer"
             />
           </div>
 
-          {/* 4. CUSTOM GUESTS DROPDOWN (Same as before) */}
+          {/* Guests Dropdown */}
           <div className="flex flex-col space-y-2 relative">
             <label className="text-gold text-[10px] uppercase tracking-widest font-bold ml-2">Guests</label>
             <div 
@@ -183,7 +170,7 @@ export default function HeroSection() {
             )}
           </div>
 
-          {/* 5. Search Button */}
+          {/* Search Button */}
           <Link
             href="/services"
             className="bg-white text-black h-[50px] md:h-[52px] rounded-xl font-bold uppercase tracking-widest hover:bg-gold transition-all active:scale-95 w-full flex items-center justify-center shadow-lg"

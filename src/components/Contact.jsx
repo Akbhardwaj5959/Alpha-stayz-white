@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // useEffect add kiya
 import Image from 'next/image';
 
 export default function ContactPage() {
@@ -16,22 +16,30 @@ export default function ContactPage() {
     message: ''
   });
 
-  const [status, setStatus] = useState(''); // Loading/Success Message
+  const [status, setStatus] = useState(''); 
+  
+  // 🔥 FIX: State for minimum date
+  const [minDate, setMinDate] = useState('');
 
-  const today = new Date().toISOString().split('T')[0];
+  // 🔥 FIX: Component load hone par user ka local time nikalna
+  useEffect(() => {
+    const dt = new Date();
+    // Ye line magic karegi: Timezone ka difference hatake sahi local date banayegi
+    const localDate = new Date(dt.getTime() - (dt.getTimezoneOffset() * 60000));
+    const formattedDate = localDate.toISOString().split('T')[0];
+    setMinDate(formattedDate);
+  }, []);
 
   // Handle Input Change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // --- MAIN FIX IS HERE ---
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('Sending...'); // Loading state start
+    setStatus('Sending...'); 
 
     try {
-      // Asli API Call yahan ho rahi hai
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -40,14 +48,11 @@ export default function ContactPage() {
         body: JSON.stringify(formData),
       });
 
-      // Agar server bole "OK" (200)
       if (res.status === 200) {
         setStatus('Success');
         alert("Booking request sent successfully! Check your email.");
-        // Form Reset
         setFormData({ name: '', phone: '', email: '', location: 'Sector 57 (Main)', checkIn: '', checkOut: '', message: '' });
       } else {
-        // Agar server bole Error
         setStatus('Error');
         alert("Something went wrong. Please try again.");
       }
@@ -85,7 +90,7 @@ export default function ContactPage() {
       <section className="max-w-7xl mx-auto px-6 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-          {/* LEFT: Info */}
+          {/* LEFT: Info (Same as before) */}
           <div className="flex flex-col justify-center pt-8">
             <h3 className="text-gold text-xs font-bold uppercase tracking-[0.2em] mb-4">Reach Out to Us</h3>
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
@@ -96,16 +101,13 @@ export default function ContactPage() {
               Fill out the form or reach us directly. Our team is available 24/7.
             </p>
 
-            {/* Icons List */}
             <div className="grid gap-4 md:gap-6">
-
               {/* Call Card */}
               <div className="flex items-center space-x-4 md:space-x-6 p-4 md:p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
-                {/* Icon: Mobile pe chhota (w-10), Desktop pe bada (w-14) */}
                 <div className="w-10 h-10 md:w-14 md:h-14 flex-shrink-0 rounded-full bg-gold/10 flex items-center justify-center text-gold text-lg md:text-2xl group-hover:bg-gold group-hover:text-white transition-all">
                   📞
                 </div>
-                <div className="min-w-0"> {/* min-w-0 zaroori hai text overflow rokne ke liye */}
+                <div className="min-w-0"> 
                   <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold mb-0.5 md:mb-1">Call Us</p>
                   <p className="text-base md:text-xl text-gray-900 font-bold group-hover:text-gold transition-colors truncate">
                     +91 85956 62400
@@ -120,13 +122,11 @@ export default function ContactPage() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold mb-0.5 md:mb-1">Email Us</p>
-                  {/* break-all: Email ko tutne dega agar screen choti hui to */}
                   <p className="text-sm md:text-xl text-gray-900 font-bold group-hover:text-gold transition-colors break-all">
                     alphastayz30@gmail.com
                   </p>
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -161,18 +161,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="text-gray-500 text-[10px] uppercase font-bold ml-2 mb-2 block">Check-in Date</label>
-                  <input name="checkIn" value={formData.checkIn} onChange={handleChange} type="date" className="w-full bg-gray-50 border border-gray-200 rounded-xl p-4 text-gray-900 focus:border-gold outline-none [color-scheme:dark] cursor-pointer font-medium" required />
-                </div>
-                <div>
-                  <label className="text-gray-500 text-[10px] uppercase font-bold ml-2 mb-2 block">Check-out Date</label>
-                  <input name="checkOut" value={formData.checkOut} onChange={handleChange} type="date" className="w-full bg-gray-50 border border-gray-200 rounded-xl p-4 text-gray-900 focus:border-gold outline-none [color-scheme:dark] cursor-pointer font-medium" required />
-                </div>
-              </div> */}
-
-              {/* --- Updated Code Block --- */}
+              {/* --- DATE INPUTS UPDATED --- */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="text-gray-500 text-[10px] uppercase font-bold ml-2 mb-2 block">Check-in Date</label>
@@ -181,8 +170,8 @@ export default function ContactPage() {
                     value={formData.checkIn}
                     onChange={handleChange}
                     type="date"
-                    // CHANGE 1: min={today} lagaya hai taaki purani date select na ho
-                    min={today}
+                    // 🔥 Yahan 'minDate' lagaya hai
+                    min={minDate}
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl p-4 text-gray-900 focus:border-gold outline-none [color-scheme:dark] cursor-pointer font-medium"
                     required
                   />
@@ -194,9 +183,8 @@ export default function ContactPage() {
                     value={formData.checkOut}
                     onChange={handleChange}
                     type="date"
-                    // CHANGE 2: Agar Check-in date select hai, to usse pehle ki date block ho jayegi.
-                    // Agar nahi hai, to aaj se pehle ki date block rahegi.
-                    min={formData.checkIn ? formData.checkIn : today}
+                    // 🔥 Yahan logic: Check-in date ya Aaj ki date
+                    min={formData.checkIn ? formData.checkIn : minDate}
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl p-4 text-gray-900 focus:border-gold outline-none [color-scheme:dark] cursor-pointer font-medium"
                     required
                   />
