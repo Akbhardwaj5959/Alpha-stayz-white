@@ -40,7 +40,7 @@ const golfCourseRooms = [
     price: "₹1,599",
     description: "A budget-friendly yet premium option for couples. Soundproof walls and cozy lighting.",
     features: ["250 sq.ft", "Queen Bed", "Mini Fridge", "Couple Friendly"],
-    images: ["/rooms-images/fourth.jpg", "/rooms-images/frigh.jpg", "/rooms-images/washroom.jpg"]
+    images: ["/42-photos/room.jpeg", "/42-photos/hall.jpeg", "/42-photos/gally.jpeg"]
   },
   {
     id: 5,
@@ -48,7 +48,7 @@ const golfCourseRooms = [
     price: "₹5,999",
     description: "Experience the top-floor view with a private terrace garden and ultra-luxury amenities.",
     features: ["1200 sq.ft", "Private Terrace", "Jacuzzi", "Butler Service"],
-    images: ["/rooms-images/first.jpg", "/rooms-images/gallery-1.jpg", "/rooms-images/kichen-2.jpg"]
+    images: ["/42-photos/gally3.jpeg", "/42-photos/building.jpeg", "/42-photos/gally3.jpeg"]
   },
   {
     id: 6,
@@ -56,7 +56,7 @@ const golfCourseRooms = [
     price: "₹1,299",
     description: "Best for solo travelers or short stays. All basic amenities included with premium comfort.",
     features: ["200 sq.ft", "Single Bed", "AC", "Clean Hygiene"],
-    images: ["/rooms-images/room-6.jpg", "/rooms-images/gallery-2.jpg", "/rooms-images/hall.jpg"]
+    images: ["/42-photos/hall2.jpeg", "/42-photos/gally2.jpeg", "/42-photos/loby.jpeg"]
   }
 ];
 
@@ -77,7 +77,7 @@ const RoomCard = ({ room }) => {
   return (
     // CHANGE: White Card with Soft Shadow
     <div className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group">
-      
+
       {/* --- IMAGE SLIDER SECTION --- */}
       <div className="relative h-64 w-full bg-gray-100">
         <Image
@@ -108,7 +108,7 @@ const RoomCard = ({ room }) => {
 
         {/* Price Tag */}
         <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-black px-3 py-1.5 text-xs font-bold rounded-full shadow-md border border-gray-100">
-           {room.price} <span className="text-gray-500 font-normal">/ night</span>
+          {room.price} <span className="text-gray-500 font-normal">/ night</span>
         </div>
       </div>
 
@@ -116,7 +116,7 @@ const RoomCard = ({ room }) => {
       <div className="p-6 flex flex-col flex-grow">
         {/* Title Dark Gray */}
         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-gold transition-colors">{room.title}</h3>
-        
+
         {/* Features Icons */}
         <div className="flex flex-wrap gap-2 mb-4">
           {room.features.map((feature, i) => (
@@ -131,8 +131,8 @@ const RoomCard = ({ room }) => {
         </p>
 
         {/* --- BOOKING BUTTON --- */}
-        <Link 
-          href="/contact" 
+        <Link
+          href="/contact"
           className="w-full block text-center bg-black text-white py-3.5 rounded-xl font-bold uppercase text-xs tracking-widest hover:bg-gold hover:text-black transition-all shadow-lg active:scale-95"
         >
           Book This Room
@@ -147,20 +147,20 @@ export default function ServicesPage() {
   return (
     // CHANGE: Off-White Background
     <main className="min-h-screen bg-[#FAF9F6]">
-      
+
       {/* Hero Banner */}
       <section className="relative h-[40vh] flex items-center justify-center mb-16 overflow-hidden">
         <div className="absolute inset-0 z-0">
-           <Image
-            src="/views/view-2.jpg" 
+          <Image
+            src="/views/view-2.jpg"
             alt="Our Rooms"
             fill
             className="object-cover"
             priority
           />
-           <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-black/40"></div>
         </div>
-        
+
         <div className="relative z-10 text-center px-4 pt-20">
           <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4 drop-shadow-xl">
             OUR <span className="text-gold">SUITES</span>
@@ -173,14 +173,14 @@ export default function ServicesPage() {
 
       {/* --- LOCATION 1: SECTOR 57 (MAIN) --- */}
       <section className="max-w-7xl mx-auto px-6 mb-24">
-        
+
         {/* Location Heading */}
         <div className="flex items-center gap-4 mb-10">
-           <div className="h-10 w-1.5 bg-gold rounded-full"></div>
-           <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Sector 57 (Main)</h2>
-              <p className="text-gray-500 text-sm">Prime location near Huda City Centre</p>
-           </div>
+          <div className="h-10 w-1.5 bg-gold rounded-full"></div>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Sector 57 (Main)</h2>
+            <p className="text-gray-500 text-sm">Prime location near Huda City Centre</p>
+          </div>
         </div>
 
         {/* Grid */}
@@ -193,14 +193,14 @@ export default function ServicesPage() {
 
       {/* --- LOCATION 2: GOLF COURSE EXTENSION --- */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
-        
+
         {/* Location Heading */}
         <div className="flex items-center gap-4 mb-10">
-           <div className="h-10 w-1.5 bg-gold rounded-full"></div>
-           <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Golf Course Ext. (New)</h2>
-              <p className="text-gray-500 text-sm">Premium stays near Cyber Hub</p>
-           </div>
+          <div className="h-10 w-1.5 bg-gold rounded-full"></div>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Golf Course Ext. (New)</h2>
+            <p className="text-gray-500 text-sm">Premium stays near Cyber Hub</p>
+          </div>
         </div>
 
         {/* Grid */}
